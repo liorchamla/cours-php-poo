@@ -29,27 +29,9 @@ $articles = $resultats->fetchAll();
 /**
  * 3. Affichage
  */
-?>
-<!DOCTYPE html>
-<html lang="en">
+$pageTitle = "Accueil";
+ob_start();
+require('templates/articles/index.html.php');
+$pageContent = ob_get_clean();
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Mon superbe blog - Accueil</title>
-</head>
-
-<body>
-    <h1>Nos articles</h1>
-
-    <?php foreach ($articles as $article) : ?>
-        <h2><?= $article['title'] ?></h2>
-        <small>Ecrit le <?= $article['created_at'] ?></small>
-        <p><?= $article['introduction'] ?></p>
-        <a href="article.php?id=<?= $article['id'] ?>">Lire la suite</a>
-        <a href="delete-article.php?id=<?= $article['id'] ?>" onclick="return window.confirm(`Êtes vous sur de vouloir supprimer cet article ?!`)">Supprimer</a>
-    <?php endforeach ?>
-</body>
-
-</html>
+require('templates/layout.html.php');
