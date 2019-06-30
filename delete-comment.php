@@ -12,11 +12,10 @@ require_once('libraries/database.php');
 /**
  * 1. Récupération du paramètre "id" en GET
  */
-if (empty($_GET['id']) || !ctype_digit($_GET['id'])) {
+$id = filter_input(INPUT_GET, 'id', FILTER_VALIDATE_INT);
+if (!$id) {
     die("Ho ! Fallait préciser le paramètre id en GET !");
 }
-
-$id = $_GET['id'];
 
 
 /**

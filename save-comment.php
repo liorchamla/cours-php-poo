@@ -23,23 +23,14 @@ require_once('libraries/database.php');
  * Ensuite, on vérifie qu'elles ne sont pas nulles
  */
 // On commence par l'author
-$author = null;
-if (!empty($_POST['author'])) {
-    $author = $_POST['author'];
-}
+$author = filter_input(INPUT_POST, 'author', FILTER_SANITIZE_SPECIAL_CHARS);
 
 // Ensuite le contenu
-$content = null;
-if (!empty($_POST['content'])) {
-    // On fait quand même gaffe à ce que le gars n'essaye pas des balises cheloues dans son commentaire
-    $content = htmlspecialchars($_POST['content']);
-}
+$content = filter_input(INPUT_POST, 'content', FILTER_SANITIZE_SPECIAL_CHARS);
 
 // Enfin l'id de l'article
-$article_id = null;
-if (!empty($_POST['article_id']) && ctype_digit($_POST['article_id'])) {
-    $article_id = $_POST['article_id'];
-}
+$article_id = filter_input(INPUT_POST, 'article_id', FILTER_VALIDATE_INT);
+
 
 // Vérification finale des infos envoyées dans le formulaire (donc dans le POST)
 // Si il n'y a pas d'auteur OU qu'il n'y a pas de contenu OU qu'il n'y a pas d'identifiant d'article

@@ -12,11 +12,10 @@ require_once('libraries/database.php');
 /**
  * 1. On vérifie que le GET possède bien un paramètre "id" (delete.php?id=202) et que c'est bien un nombre
  */
-if (empty($_GET['id']) || !ctype_digit($_GET['id'])) {
+$id = filter_input(INPUT_GET, 'id', FILTER_VALIDATE_INT);
+if (!$id) {
     die("Ho ?! Tu n'as pas précisé l'id de l'article !");
 }
-
-$id = $_GET['id'];
 
 /**
  * 2. Connexion à la base de données avec PDO
