@@ -14,6 +14,12 @@ require_once('libraries/database.php');
  */
 class Article
 {
+    private $pdo;
+
+    public function __construct()
+    {
+        $this->pdo = getPdo();
+    }
 
     /**
      * Retourne un article dans la base de données grâce à son id
@@ -24,11 +30,8 @@ class Article
      */
     public function find(int $id): array
     {
-        // 1. On récupère une connexion
-        $pdo = getPdo();
-
         // 2. On prépare une requête
-        $query = $pdo->prepare("SELECT * FROM articles WHERE id = :article_id");
+        $query = $this->pdo->prepare("SELECT * FROM articles WHERE id = :article_id");
 
         // 3. On exécute la requête en précisant le paramètre :article_id 
         $query->execute(['article_id' => $id]);
@@ -47,11 +50,8 @@ class Article
      */
     public function findAll(): array
     {
-        // 1. Récupération de la connexion
-        $pdo = getPdo();
-
         // 2. Récupération des articles
-        $resultats = $pdo->query('SELECT * FROM articles ORDER BY created_at DESC');
+        $resultats = $this->pdo->query('SELECT * FROM articles ORDER BY created_at DESC');
         $articles = $resultats->fetchAll();
 
         // 3. On retourne les articles
@@ -67,11 +67,8 @@ class Article
      */
     public function delete(int $id): void
     {
-        // 1. On demande la connexion
-        $pdo = getPdo();
-
         // 2. On supprime l'article
-        $query = $pdo->prepare('DELETE FROM articles WHERE id = :id');
+        $query = $this->pdo->prepare('DELETE FROM articles WHERE id = :id');
         $query->execute(['id' => $id]);
     }
 }
