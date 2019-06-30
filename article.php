@@ -36,29 +36,23 @@ if (!$article_id) {
  * 2. Connexion à la base de données avec PDO
  * A partir de maintenant, fini les répétitions de connexion à la base !
  * On utilise simplement notre fonction getPdo() !
+ * 
+ * CE N'EST PLUS NECESSAIRE !
  */
-$pdo = getPdo();
+// $pdo = getPdo();
 
 /**
  * 3. Récupération de l'article en question
  * On va ici utiliser une requête préparée car elle inclue une variable qui provient de l'utilisateur : Ne faites
  * jamais confiance à ce connard d'utilisateur ! :D
  */
-$query = $pdo->prepare("SELECT * FROM articles WHERE id = :article_id");
-
-// On exécute la requête en précisant le paramètre :article_id 
-$query->execute(['article_id' => $article_id]);
-
-// On fouille le résultat pour en extraire les données réelles de l'article
-$article = $query->fetch();
+$article = findArticle($article_id);
 
 /**
  * 4. Récupération des commentaires de l'article en question
  * Pareil, toujours une requête préparée pour sécuriser la donnée filée par l'utilisateur (cet enfoiré en puissance !)
  */
-$query = $pdo->prepare("SELECT * FROM comments WHERE article_id = :article_id");
-$query->execute(['article_id' => $article_id]);
-$commentaires = $query->fetchAll();
+$commentaires = findAllComments($article_id);
 
 /**
  * 5. On affiche 
