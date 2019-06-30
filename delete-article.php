@@ -6,6 +6,7 @@
  * Il va donc falloir bien s'assurer qu'un paramètre "id" est bien passé en GET, puis que cet article existe bel et bien
  * Ensuite, on va pouvoir effectivement supprimer l'article et rediriger vers la page d'accueil
  */
+require_once('libraries/utils.php');
 require_once('libraries/database.php');
 
 /**
@@ -42,5 +43,4 @@ deleteArticle($id);
 /**
  * 5. Redirection vers la page d'accueil
  */
-header("Location: index.php");
-exit();
+redirect("index.php");

@@ -27,3 +27,17 @@ function render(string $path, array $variables = []): void
 
     require('templates/layout.html.php');
 }
+
+
+/**
+ * Redirige le visiteur vers $uri
+ *
+ * @param string $uri
+ *
+ * @return void
+ */
+function redirect(string $uri): void
+{
+    header("Location: $uri");
+    exit();
+}

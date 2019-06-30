@@ -6,6 +6,7 @@
  * On va donc vérifier que le paramètre "id" est bien présent en GET, qu'il correspond bien à un commentaire existant
  * Puis on le supprimera !
  */
+require_once('libraries/utils.php');
 require_once('libraries/database.php');
 
 /**
@@ -45,5 +46,4 @@ deleteComment($id);
  * 5. Redirection vers l'article en question
  */
 $article_id = $commentaire['article_id'];
-header("Location: article.php?id=" . $article_id);
-exit();
+redirect('article.php?id=' . $article_id);
