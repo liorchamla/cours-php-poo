@@ -2,9 +2,6 @@
 
 namespace Controllers;
 
-// On aura besoin de la fonction render() qui se trouve dans utils.php
-require_once('libraries/utils.php');
-
 class Article extends Controller
 {
     protected $modelName = "Article";
@@ -20,7 +17,7 @@ class Article extends Controller
          * 2. Affichage
          */
         $pageTitle = "Accueil";
-        render("articles/index", compact('articles', 'pageTitle'));
+        \Renderer::render("articles/index", compact('articles', 'pageTitle'));
     }
 
     public function show()
@@ -56,7 +53,7 @@ class Article extends Controller
          */
         $pageTitle = $article['title'];
 
-        render("articles/show", compact('pageTitle', 'article', 'commentaires', 'article_id'));
+        \Renderer::render("articles/show", compact('pageTitle', 'article', 'commentaires', 'article_id'));
     }
 
     public function delete()
@@ -85,6 +82,6 @@ class Article extends Controller
         /**
          * 5. Redirection vers la page d'accueil
          */
-        redirect("index.php");
+        \Http::redirect("index.php");
     }
 }

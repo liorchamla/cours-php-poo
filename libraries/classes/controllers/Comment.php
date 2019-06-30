@@ -2,9 +2,6 @@
 
 namespace Controllers;
 
-// On aura besoin de la fonction render() qui se trouve dans utils.php
-require_once('libraries/utils.php');
-
 class Comment extends Controller
 {
     protected $modelName = "Comment";
@@ -44,7 +41,7 @@ class Comment extends Controller
         $this->model->insert(compact('author', 'content', 'article_id', 'created_at'));
 
         // 4. Redirection vers l'article en question :
-        redirect('article.php?id=' . $article_id);
+        \Http::redirect('article.php?id=' . $article_id);
     }
 
     public function delete()
@@ -75,6 +72,6 @@ class Comment extends Controller
          * 5. Redirection vers l'article en question
          */
         $article_id = $commentaire['article_id'];
-        redirect('article.php?id=' . $article_id);
+        \Http::redirect('article.php?id=' . $article_id);
     }
 }

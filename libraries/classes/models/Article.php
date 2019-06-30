@@ -8,9 +8,6 @@ namespace Models;
  * On appelle souvent cela un Model (une 3 composantes de l'artchitecture MVC)
  */
 
-require_once('libraries/classes/models/Model.php');
-
-
 /**
  * Classe qui gère les données des articles
  */
