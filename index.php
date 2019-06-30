@@ -7,6 +7,7 @@
  * puis on va boucler dessus pour afficher chacun d'entre eux
  */
 
-require_once('libraries/classes/controllers/Article.php');
+require_once('libraries/autoload.php');
+
 $controller = new Controllers\Article();
 $controller->index();
