@@ -13,6 +13,8 @@
 
 // On aura besoin de la fonction render() qui se trouve dans le fichier libraries/utils.php
 require_once('libraries/utils.php');
+// On aura besoin des fonctions de liaison à la base de données (fichier libraries/database.php)
+require_once('libraries/database.php');
 
 /**
  * 1. Récupération du param "id" et vérification de celui-ci
@@ -32,16 +34,10 @@ if (!$article_id) {
 
 /**
  * 2. Connexion à la base de données avec PDO
- * Attention, on précise ici deux options :
- * - Le mode d'erreur : le mode exception permet à PDO de nous prévenir violament quand on fait une connerie ;-)
- * - Le mode d'exploitation : FETCH_ASSOC veut dire qu'on exploitera les données sous la forme de tableaux associatifs
- * 
- * PS : Vous remarquez que ce sont les mêmes lignes que pour l'index.php ?!
+ * A partir de maintenant, fini les répétitions de connexion à la base !
+ * On utilise simplement notre fonction getPdo() !
  */
-$pdo = new PDO('mysql:host=localhost;dbname=blogpoo;charset=utf8', 'root', '', [
-    PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
-    PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC
-]);
+$pdo = getPdo();
 
 /**
  * 3. Récupération de l'article en question

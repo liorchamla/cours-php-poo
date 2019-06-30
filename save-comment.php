@@ -49,16 +49,10 @@ if (!$author || !$article_id || !$content) {
  * Ca nécessite une connexion à la base de données puis une requête qui va aller chercher l'article en question
  * Si rien ne revient, la personne se fout de nous.
  * 
- * Attention, on précise ici deux options :
- * - Le mode d'erreur : le mode exception permet à PDO de nous prévenir violament quand on fait une connerie ;-)
- * - Le mode d'exploitation : FETCH_ASSOC veut dire qu'on exploitera les données sous la forme de tableaux associatifs
- * 
- * PS : Ca fait pas genre 3 fois qu'on écrit ces lignes pour se connecter ?! 
+ * A partir de maintenant, fini les répétitions de connexion à la base !
+ * On utilise simplement notre fonction getPdo() !
  */
-$pdo = new PDO('mysql:host=localhost;dbname=blogpoo;charset=utf8', 'root', '', [
-    PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
-    PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC
-]);
+$pdo = getPdo();
 
 $query = $pdo->prepare('SELECT * FROM articles WHERE id = :article_id');
 $query->execute(['article_id' => $article_id]);
