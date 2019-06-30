@@ -4,20 +4,17 @@ namespace Controllers;
 
 // On aura besoin de la fonction render() qui se trouve dans utils.php
 require_once('libraries/utils.php');
-// On aura besoin de la classe Article pour récupérer les données
-require_once('libraries/classes/models/Article.php');
-require_once('libraries/classes/models/Comment.php');
 
-class Article
+class Article extends Controller
 {
+    protected $modelName = "Article";
+
     public function index()
     {
-        $model = new \Models\Article();
-
         /**
          * 1. Récupération des articles
          */
-        $articles = $model->findAll('created_at DESC');
+        $articles = $this->model->findAll('created_at DESC');
 
         /**
          * 2. Affichage
@@ -28,8 +25,6 @@ class Article
 
     public function show()
     {
-        // On aura besoin du model Article et du model Comment
-        $articleModel = new \Models\Article();
         $commentModel = new \Models\Comment();
 
         /**
@@ -48,7 +43,7 @@ class Article
          * On va ici utiliser une requête préparée car elle inclue une variable qui provient de l'utilisateur : Ne faites
          * jamais confiance à ce connard d'utilisateur ! :D
          */
-        $article = $articleModel->find($article_id);
+        $article = $this->model->find($article_id);
 
         /**
          * 4. Récupération des commentaires de l'article en question
@@ -66,8 +61,6 @@ class Article
 
     public function delete()
     {
-        $model = new \Models\Article();
-
         /**
          * 1. On vérifie que le GET possède bien un paramètre "id" (delete.php?id=202) et que c'est bien un nombre
          */
@@ -77,18 +70,9 @@ class Article
         }
 
         /**
-         * 2. Connexion à la base de données avec PDO
-         * A partir de maintenant, fini les répétitions de connexion à la base !
-         * On utilise simplement notre fonction getPdo() !
-         * 
-         * CE N'EST PLUS NECESSAIRE
-         */
-        // $pdo = getPdo();
-
-        /**
          * 3. Vérification que l'article existe bel et bien
          */
-        $article = $model->find($id);
+        $article = $this->model->find($id);
         if (!$article) {
             die("L'article $id n'existe pas, vous ne pouvez donc pas le supprimer !");
         }
@@ -96,7 +80,7 @@ class Article
         /**
          * 4. Réelle suppression de l'article
          */
-        $model->delete($id);
+        $this->model->delete($id);
 
         /**
          * 5. Redirection vers la page d'accueil

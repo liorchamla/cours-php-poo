@@ -4,16 +4,14 @@ namespace Controllers;
 
 // On aura besoin de la fonction render() qui se trouve dans utils.php
 require_once('libraries/utils.php');
-// On aura besoin de la classe Article pour récupérer les données
-require_once('libraries/classes/models/Article.php');
-require_once('libraries/classes/models/Comment.php');
 
-class Comment
+class Comment extends Controller
 {
+    protected $modelName = "Comment";
+
     public function save()
     {
         $articleModel = new \Models\Article();
-        $commentModel = new \Models\Comment();
 
         /**
          * 1. On vérifie que les données ont bien été envoyées en POST
@@ -43,7 +41,7 @@ class Comment
 
         // 3. Insertion du commentaire
         $created_at = date('Y-m-d H:i:s');
-        $commentModel->insert(compact('author', 'content', 'article_id', 'created_at'));
+        $this->model->insert(compact('author', 'content', 'article_id', 'created_at'));
 
         // 4. Redirection vers l'article en question :
         redirect('article.php?id=' . $article_id);
@@ -51,8 +49,6 @@ class Comment
 
     public function delete()
     {
-        $commentModel = new \Models\Comment();
-
         /**
          * 1. Récupération du paramètre "id" en GET
          */
@@ -64,7 +60,7 @@ class Comment
         /**
          * 3. Vérification de l'existence du commentaire
          */
-        $commentaire = $commentModel->find($id);
+        $commentaire = $this->model->find($id);
         if (!$commentaire) {
             die("Aucun commentaire n'a l'identifiant $id !");
         }
@@ -73,7 +69,7 @@ class Comment
          * 4. Suppression réelle du commentaire
          * On récupère l'identifiant de l'article avant de supprimer le commentaire
          */
-        $commentModel->delete($id);
+        $this->model->delete($id);
 
         /**
          * 5. Redirection vers l'article en question
