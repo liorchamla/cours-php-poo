@@ -58,4 +58,4 @@ $commentaires = $commentModel->findAllWithArticle($article_id);
  */
 $pageTitle = $article['title'];
 
-render("articles/show", compact('pageTitle', 'article', 'commentaires'));
+render("articles/show", compact('pageTitle', 'article', 'commentaires', 'article_id'));

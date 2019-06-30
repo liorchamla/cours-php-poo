@@ -35,7 +35,6 @@ $content = filter_input(INPUT_POST, 'content', FILTER_SANITIZE_SPECIAL_CHARS);
 // Enfin l'id de l'article
 $article_id = filter_input(INPUT_POST, 'article_id', FILTER_VALIDATE_INT);
 
-
 // Vérification finale des infos envoyées dans le formulaire (donc dans le POST)
 // Si il n'y a pas d'auteur OU qu'il n'y a pas de contenu OU qu'il n'y a pas d'identifiant d'article
 if (!$author || !$article_id || !$content) {
@@ -61,7 +60,8 @@ if (!$article) {
 }
 
 // 3. Insertion du commentaire
-$commentModel->insert($author, $content, $article_id);
+$created_at = date('Y-m-d H:i:s');
+$commentModel->insert(compact('author', 'content', 'article_id', 'created_at'));
 
 // 4. Redirection vers l'article en question :
 redirect('article.php?id=' . $article_id);

@@ -6,19 +6,14 @@
  * On appelle souvent cela un Model (une 3 composantes de l'artchitecture MVC)
  */
 
-require_once('libraries/database.php');
+require_once('libraries/classes/models/Model.php');
 
 /**
  * Classe qui gère les données des commentaires
  */
-class Comment
+class Comment extends Model
 {
-    private $pdo;
-
-    public function __construct()
-    {
-        $this->pdo = getPdo();
-    }
+    protected $table = "comments";
 
     /**
      * Retourne la liste des commentaires pour un article donné
@@ -36,54 +31,5 @@ class Comment
 
         // 3. On retourne les commentaires
         return $commentaires;
-    }
-
-
-    /**
-     * Retourne les informations d'un commentaire grâce à son id
-     *
-     * @param integer $id
-     *
-     * @return array|bool retourne un tableau avec les données du commentaire, ou false si on ne trouve pas le commentaire
-     */
-    public function find(int $id): array
-    {
-        // 2. On exécute la requête et on récupère le commentaire
-        $query = $this->pdo->prepare('SELECT * FROM comments WHERE id = :id');
-        $query->execute(['id' => $id]);
-        $comment = $query->fetch();
-
-        // 3. On retourne le commentaire
-        return $comment;
-    }
-
-    /**
-     * Supprime un commentaire grâce à son id
-     *
-     * @param integer $id
-     *
-     * @return void
-     */
-    public function delete(int $id): void
-    {
-        // 2. On exécute la suppression
-        $query = $this->pdo->prepare('DELETE FROM comments WHERE id = :id');
-        $query->execute(['id' => $id]);
-    }
-
-    /**
-     * Insère un nouveau commentaire dans la base de données
-     *
-     * @param string $author
-     * @param string $content
-     * @param integer $article_id
-     *
-     * @return void
-     */
-    public function insert(string $author, string $content, int $article_id): void
-    {
-        // 2. On exécute la requête
-        $query = $this->pdo->prepare('INSERT INTO comments SET author = :author, content = :content, article_id = :article_id, created_at = NOW()');
-        $query->execute(compact('author', 'content', 'article_id'));
     }
 }
