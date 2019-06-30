@@ -7,7 +7,9 @@
  * Puis on le supprimera !
  */
 require_once('libraries/utils.php');
-require_once('libraries/database.php');
+require_once('libraries/classes/models/Comment.php');
+
+$commentModel = new Comment();
 
 /**
  * 1. Récupération du paramètre "id" en GET
@@ -30,7 +32,7 @@ if (!$id) {
 /**
  * 3. Vérification de l'existence du commentaire
  */
-$commentaire = findComment($id);
+$commentaire = $commentModel->find($id);
 if (!$commentaire) {
     die("Aucun commentaire n'a l'identifiant $id !");
 }
@@ -39,7 +41,7 @@ if (!$commentaire) {
  * 4. Suppression réelle du commentaire
  * On récupère l'identifiant de l'article avant de supprimer le commentaire
  */
-deleteComment($id);
+$commentModel->delete($id);
 
 /**
  * 5. Redirection vers l'article en question

@@ -10,6 +10,10 @@
 // On aura besoin de la fonction render() qui se trouve dans utils.php
 require_once('libraries/utils.php');
 
+// On aura besoin de la classe Article pour récupérer les données
+require_once('libraries/classes/models/Article.php');
+$model = new Article();
+
 /**
  * 1. Connexion à la base de données avec PDO
  * A partir de maintenant, fini les répétitions de connexion à la base !
@@ -22,7 +26,7 @@ require_once('libraries/utils.php');
 /**
  * 2. Récupération des articles
  */
-$articles = findAllArticles();
+$articles = $model->findAll();
 
 /**
  * 3. Affichage
