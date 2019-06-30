@@ -7,29 +7,6 @@
  * puis on va boucler dessus pour afficher chacun d'entre eux
  */
 
-// On aura besoin de la fonction render() qui se trouve dans utils.php
-require_once('libraries/utils.php');
-
-// On aura besoin de la classe Article pour récupérer les données
-require_once('libraries/classes/models/Article.php');
-$model = new Article();
-
-/**
- * 1. Connexion à la base de données avec PDO
- * A partir de maintenant, fini les répétitions de connexion à la base !
- * On utilise simplement notre fonction getPdo() !
- * 
- * CE N'EST PLUS NECESSAIRE !
- */
-// $pdo = getPdo();
-
-/**
- * 2. Récupération des articles
- */
-$articles = $model->findAll('created_at DESC');
-
-/**
- * 3. Affichage
- */
-$pageTitle = "Accueil";
-render("articles/index", compact('articles', 'pageTitle'));
+require_once('libraries/classes/controllers/Article.php');
+$controller = new Controllers\Article();
+$controller->index();
