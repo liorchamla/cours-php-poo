@@ -9,10 +9,19 @@ $pdo = new PDO('mysql:host=localhost;dbname=blogpoo;charset=utf8', 'root', '', [
 
 $articleQuery = $pdo->prepare("INSERT INTO articles SET title = :title, slug = :slug, created_at = :created_at, introduction = :introduction, content = :content");
 $commentQuery = $pdo->prepare("INSERT INTO comments SET article_id = :article_id, author = :author, created_at = :created_at, content = :content");
+$userQuery = $pdo->prepare("INSERT INTO users SET first_name = :first_name, last_name = :last_name, email = :email");
 
-$pdo->query('DELETE FROM articles; DELETE FROM comments;');
+$pdo->query('DELETE FROM articles; DELETE FROM comments; DELETE FROM users;');
 
 $faker = Faker\Factory::create('fr_FR');
+
+for ($u = 0; $u < 30; $u++) {
+    $first_name = $faker->firstName();
+    $last_name = $faker->lastName();
+    $email = $faker->email();
+
+    $userQuery->execute(compact('first_name', 'last_name', 'email'));
+}
 
 for ($a = 0; $a < 20; $a++) {
     $title = $faker->catchPhrase;
