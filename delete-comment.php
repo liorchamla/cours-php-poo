@@ -7,6 +7,9 @@
  * Puis on le supprimera !
  */
 
+require_once('./libraries/database.php');
+require_once('./libraries/utils.php');
+
 /**
  * 1. Récupération du paramètre "id" en GET
  */
@@ -25,10 +28,8 @@ $id = $_GET['id'];
  * 
  * PS : Vous remarquez que ce sont les mêmes lignes que pour l'index.php ?!
  */
-$pdo = new PDO('mysql:host=localhost;dbname=blogpoo;charset=utf8', 'root', '', [
-    PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
-    PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC
-]);
+
+$pdo = getPdo(); 
 
 /**
  * 3. Vérification de l'existence du commentaire
@@ -53,5 +54,10 @@ $query->execute(['id' => $id]);
 /**
  * 5. Redirection vers l'article en question
  */
+
+/* remplacer:
 header("Location: article.php?id=" . $article_id);
 exit();
+par: la fonction "redirect();" de "utils.php" */
+
+redirect("article.php?id=" . $article_id);

@@ -11,6 +11,9 @@
  * On va ensuite afficher l'article puis ses commentaires
  */
 
+require_once('./libraries/database.php');
+require_once('./libraries/utils.php');
+
 /**
  * 1. Récupération du param "id" et vérification de celui-ci
  */
@@ -35,10 +38,8 @@ if (!$article_id) {
  * 
  * PS : Vous remarquez que ce sont les mêmes lignes que pour l'index.php ?!
  */
-$pdo = new PDO('mysql:host=localhost;dbname=blogpoo;charset=utf8', 'root', '', [
-    PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
-    PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC
-]);
+
+$pdo = getPdo();
 
 /**
  * 3. Récupération de l'article en question
@@ -62,11 +63,20 @@ $query->execute(['article_id' => $article_id]);
 $commentaires = $query->fetchAll();
 
 /**
- * 5. On affiche 
+ * 5. On affiche: les variables "$pageTitle" et "$pageContent" sont appelées dans templates/layout.html.php
  */
 $pageTitle = $article['title'];
-ob_start();
-require('templates/articles/show.html.php');
-$pageContent = ob_get_clean();
 
-require('templates/layout.html.php');
+/******************************************** DRY du tableau associatuf: utiliser la fonction php: "compact()"
+                              // NB: toutes ces variables créées existent à l'extérieur grâce à la fonction "extract();" utilisée dans "utils.php"
+render('articles/show', [    // variables nécessaires pour l'affichage demandées par le tableau associatif de la "function render" dans "utils;php"
+    'pageTitle'     => $pageTitle, 
+    'article'       => $article, 
+    'commentaires'  => $commentaires, 
+    'article_id'    => $article_id    // + l'id de l'article (dans "show.html.php")
+]);
+*******************************/
+
+render('articles/show', compact('pageTitle', 'article', 'commentaires', 'article_id'));  // remplace le tableau associatif ci-dessus
+
+
