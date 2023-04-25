@@ -7,17 +7,14 @@
  * puis on va boucler dessus pour afficher chacun d'entre eux
  */
 
-require_once('./libraries/database.php');
-require_once('./libraries/utils.php');
+//('./libraries/controllers/Article.php'); ---> remplacer par l'autoload.
 
-/**
- * 2. Récupération des articles
- */
-$articles = findAllArticles();
+require_once('./libraries/autoload.php');
 
-/**
- * 3. Affichage: les variables "$pageTitle" et "$pageContent" sont appelées dans templates/layout.html.php
- */
-$pageTitle = "Accueil";
+\Application::process();
 
-render('articles/index', compact('pageTitle', 'articles'));
+/*
+$controller = new \Controllers\Article();
+$controller->index();
+*/
+?>
